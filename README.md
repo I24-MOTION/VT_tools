@@ -1,2 +1,2 @@
-# I-24 MOTION Virtual Trajectory Generation
+# VT-tools v1.0
 tool for virtual trajecotry generation
