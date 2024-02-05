@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
+
 smooth_x_window = 0.1
 smooth_t_window = 36
 def beta_free_flow(x,t,x_s,t_s,x_win,t_win,c_free=-43):
@@ -30,7 +32,6 @@ def EGTF(x,t,smooth_x_window, smooth_t_window, speed_raw_df):
     return w*EGTF_v_cong + (1-w)*EGTF_v_free
 
 def smooth_raw_data(speed_raw, dx, dt, smooth_x_window = 0.15, smooth_t_window = 36):
-    from tqdm import tqdm
     EGTF_speed = pd.DataFrame(speed_raw)
     EGTF_speed.columns=['t_index','x_index','speed']
     EGTF_speed['t'] = dt*EGTF_speed['t_index']
