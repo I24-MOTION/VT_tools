@@ -1,2 +1,2 @@
 # VT-tools v1.0
-tool for virtual trajecotry generation
+tool for virtual trajectory generation
