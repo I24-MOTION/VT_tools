@@ -1,3 +1,10 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.colors import LinearSegmentedColormap
+import matplotlib.style as mplstyle
+import datetime
+
+
 def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_height=8, minor_xtick=150,
                       colors=None, cmap='green_to_red',min_milemarker = 58.7, testbed_mile = 4):
     """
@@ -43,11 +50,6 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_h
 
     This example will create a heatmap plot of `speed_data` with specified parameters.
     """
-    import matplotlib.pyplot as plt
-    import numpy as np
-    from matplotlib.colors import LinearSegmentedColormap
-    import matplotlib.style as mplstyle
-    import datetime
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
     # green_to_red is my favirate colormap...
@@ -118,11 +120,6 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, fig_width=8
 
     This example will create a heatmap plot of `speed_data` with specified parameters.
     """
-    import matplotlib.pyplot as plt
-    import numpy as np
-    from matplotlib.colors import LinearSegmentedColormap
-    import matplotlib.style as mplstyle
-    import datetime
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
     # green_to_red is my favirate colormap...

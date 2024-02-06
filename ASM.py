@@ -2,8 +2,10 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
+
 smooth_x_window = 0.1
 smooth_t_window = 36
+
 def beta_free_flow(x,t,x_s,t_s,x_win,t_win,c_free=-43):
     dt = t-t_s- 3600*(x-x_s)/c_free
     dx = x-x_s
