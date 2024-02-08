@@ -1,1 +1,7 @@
-
+numpy
+ijson
+matplotlib
+notebook
+pandas
+scipy
+tqdm
