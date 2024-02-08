@@ -10,4 +10,4 @@ VT-tools can be run as stand-alone code or as part of your own analysis. The req
 - Supporting libraries enumerated in `requirements.txt`.
 - *Note: if you are only importing VT-tools for use in other code and do not need the Python notebook it comes with, the Jupyter library is not required.
 
-We recommend starting with a clean Python environment (i.e., through Conda or venv) with the correct Python version. The supporting libraries can then be installed by activating/entering your Python environment and running the following command from the VT-tools directory `pip install -r requirements.txt`.
+We recommend starting with a clean Python environment (i.e., through Conda or venv) with the correct Python version. For example: `conda create -n vt-tools python=3.10`. The supporting libraries can then be installed by activating/entering your Python environment and running the following command from the VT-tools directory `pip install -r requirements.txt`.
