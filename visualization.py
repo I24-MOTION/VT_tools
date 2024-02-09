@@ -6,7 +6,7 @@ import datetime
 
 
 def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_height=8, minor_xtick=150,
-                      colors=None, cmap='green_to_red',min_milemarker = 58.7, testbed_mile = 4):
+                      colors=None, cmap='green_to_red',min_milemarker=58.7, testbed_mile=4):
     """
     Visualizes a heatmap of speed data over time and mile markers.
 
@@ -52,10 +52,10 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_h
     """
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
-    # green_to_red is my favirate colormap...
+    # green_to_red is my favorite colormap...
     green_to_red = LinearSegmentedColormap.from_list('GreenToRed', colors, N=256)
     plt.figure(figsize=(fig_width, fig_height))
-    plt.rc('font', family='serif', size=25)
+    plt.rc('font', family='serif', size=24)
     sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     # yticks = list(range(0, int(testbed_mile/dx) + 1, int(testbed_mile/dx/4)))
@@ -66,7 +66,7 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_h
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
     xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
-    plt.xticks(ticks, labels=xlabels, rotation=0)
+    plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=14)
     plt.xlim(0, (endtime-starttime)/dt)
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
@@ -76,7 +76,7 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt, fig_width=8, fig_h
 
 
 def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, fig_width=8, fig_height=8, minor_xtick=150,
-                      colors=None, cmap='green_to_red',min_milemarker = 58.7, testbed_mile = 4):
+                      colors=None, cmap='green_to_red',min_milemarker=58.7, testbed_mile=4):
     """
     Visualizes a heatmap of speed data over time and mile markers.
 
@@ -122,18 +122,18 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, fig_width=8
     """
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
-    # green_to_red is my favirate colormap...
+    # green_to_red is my favorite colormap...
     green_to_red = LinearSegmentedColormap.from_list('GreenToRed', colors, N=256)
     plt.figure(figsize=(fig_width, fig_height))
-    plt.rc('font', family='serif', size=25)
+    plt.rc('font', family='serif', size=24)
     sc = plt.scatter(speed_data.t, speed_data.x, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     plt.scatter(vt.time/dt, (vt.space-58.7)/dx, c='black', s=1)
     plt.gca().invert_yaxis()
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     yticks = list(range(0, int(testbed_mile/dx) + 1, int(testbed_mile/dx/4)))
-    ticks = list(range(0, endtime-starttime + 1, minor_xtick))
+    ticks = list(range(0, en  dtime-starttime + 1, minor_xtick))
     ylabels = [dx * tick + min_milemarker for tick in yticks]
-    plt.yticks(yticks, labels=ylabels, rotation=0)
+    plt.yticks(yticks, labels=ylabels, rotation=45, fontsize=14)
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
     xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
