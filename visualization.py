@@ -131,7 +131,7 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, fig_width=8
     plt.gca().invert_yaxis()
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     yticks = list(range(0, int(testbed_mile/dx) + 1, int(testbed_mile/dx/4)))
-    ticks = list(range(0, en  dtime-starttime + 1, minor_xtick))
+    ticks = list(range(0, endtime-starttime + 1, minor_xtick))
     ylabels = [dx * tick + min_milemarker for tick in yticks]
     plt.yticks(yticks, labels=ylabels, rotation=45, fontsize=14)
     plt.ylabel('Mile Marker')
