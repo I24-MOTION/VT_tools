@@ -33,13 +33,16 @@ def gen_VT(t0,v_id,large_speed_field,update_rate = 1, x0=0.32):
         traj.append((t, x, speed, v_id))
     return traj
 
-def gen_VT_k(smooth_speed, k = 1):
-    smooth = smooth_speed.copy()
-    smooth.columns = ['t_index', 'x_index', 'raw_speed', 't', 'x', 'speed']
-    smooth_vt = smooth.copy()
+def gen_all_VT(smooth_speed, frequency, hour):
+    vt_list = []
+    smooth_vt = smooth_speed.copy()
+    smooth_vt.columns = ['t_index', 'x_index', 'raw_speed', 't', 'x', 'speed']
     smooth_vt['x'] = 63 - smooth_vt['x']
-    vt = pd.DataFrame(gen_VT(0, k, smooth_vt))
-    vt.columns = ['time', 'space', 'speed', 'v_id']
-    vt['space'] = 63 - vt['space']
-    return vt
-
+    for time in np.arange(30, 30 + 3600 * hour + 1 - 120, int(frequency)):
+        k = int(time / int(frequency))
+        vt = pd.DataFrame(gen_VT(time, k, smooth_vt))
+        vt.columns = ['time', 'space', 'speed', 'v_id']
+        vt['space'] = 63 - vt['space']
+        vt_list.append(vt)
+    vt_all = pd.concat(vt_list)
+    return vt_all
