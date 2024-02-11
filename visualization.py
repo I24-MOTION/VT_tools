@@ -3,9 +3,14 @@ import numpy as np
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.style as mplstyle
 import datetime
+import warnings
+import os
 
-def visualize_heatmap(figure_root, speed_data, starttime, endtime, dx, dt, fig_width=8, fig_height=8, minor_xtick=150,
-                      colors=None, cmap='green_to_red',min_milemarker=58.7, testbed_mile=4):
+
+def visualize_heatmap(speed_data, starttime, endtime, dx, dt, 
+                      fig_width=8, fig_height=8, minor_xtick=150,
+                      min_milemarker=58.7, testbed_mile=4, 
+                      save_filepath=None):
     """
     Visualizes a heatmap of speed data over time and mile markers.
 
@@ -27,10 +32,8 @@ def visualize_heatmap(figure_root, speed_data, starttime, endtime, dx, dt, fig_w
         The height of the generated figure in inches. Default is 8.
     minor_xtick : int, optional
         The interval between minor x-axis ticks in seconds. Default is 150.
-    colors : list of colors, optional
-        A list of colors for the heatmap. Default is unspecified.
-    cmap : colormap, optional
-        The colormap to use for the heatmap. Default is 'green_to_red'.
+    save_filepath : file path name, optional
+        Absolute path name (type .png or .pdf) for saving the figure (optional); if None, does not save.
 
     Returns:
     --------
@@ -39,9 +42,9 @@ def visualize_heatmap(figure_root, speed_data, starttime, endtime, dx, dt, fig_w
 
     Notes:
     ------
-    This function uses matplotlib to create a heatmap visualization of speed data along mile markers and time intervals.
-    It displays speed data as a colormap with color-coded speed values, and mile markers and time intervals are marked
-    on the axes. The colormap can be customized using the `colors` and `cmap` parameters.
+    This function uses matplotlib to create a heatmap visualization of speed data along 
+    mile markers and time intervals. It displays speed data as a colormap with color-coded 
+    speed values, and mile markers and time intervals are marked on the axes. 
 
     Example:
     --------
@@ -49,35 +52,44 @@ def visualize_heatmap(figure_root, speed_data, starttime, endtime, dx, dt, fig_w
 
     This example will create a heatmap plot of `speed_data` with specified parameters.
     """
+    # Use a portion of the Jet colormap for a custom green-to-red colormap
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
-    # green_to_red is my favorite colormap...
     green_to_red = LinearSegmentedColormap.from_list('GreenToRed', colors, N=256)
+    # Create a new figure with a custom font.
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
-    sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    # Create a scatter plot of all of the spatiotemporal data points.
+    sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, 
+                     c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
-    # yticks = list(range(0, int(testbed_mile/dx) + 1, int(testbed_mile/dx/4)))
-    # yticks = list(range(min_milemarker, min_milemarker + testbed_mile + 1, 1))
     ticks = list(range(0, endtime-starttime + 1, minor_xtick))
-    # ylabels = [tick + min_milemarker for tick in yticks]
-    # plt.yticks(yticks, labels=ylabels, rotation=0)
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
     xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
-    plt.xticks(ticks, labels=xlabels, rotation=0, fontsize=30)
+    plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=16)
     plt.xlim(0, (endtime-starttime)/dt)
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
+    # Add a grid and colorbar.
     plt.grid(which='both', linewidth=2, linestyle='--')
     plt.colorbar(sc, pad=0.01).set_label('Speed (mph)', rotation=90, labelpad=20)
-    plt.savefig(figure_root + '.png', dpi=300, bbox_inches='tight')
+    # If a file path was defined for this plot, save the figure.
+    if save_filepath is not None:
+        if os.path.splitext(save_filepath)[1] not in ('.png', '.pdf'):
+            warnings.warn("Invalid file type for saving; must be .png or .pdf.")
+        plt.savefig(save_filepath, dpi=300, bbox_inches='tight')
     plt.show()
 
-def visualize_heatmap_vt(figure_root, speed_data, vt, starttime, endtime, dx, dt, fig_width=8, fig_height=8, minor_xtick=150,
-                      colors=None, cmap='green_to_red',min_milemarker=58.7, testbed_mile=4):
+
+def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, 
+                         fig_width=8, fig_height=8, minor_xtick=150,
+                         colors=None, cmap='green_to_red',
+                         min_milemarker=58.7, testbed_mile=4, 
+                         save_filepath=None):
     """
-    Visualizes a heatmap of speed data over time and mile markers.
+    Visualizes a heatmap of speed data over time and mile markers, along with virtual trajectories overlaid.
 
     Parameters:
     -----------
@@ -97,10 +109,8 @@ def visualize_heatmap_vt(figure_root, speed_data, vt, starttime, endtime, dx, dt
         The height of the generated figure in inches. Default is 8.
     minor_xtick : int, optional
         The interval between minor x-axis ticks in seconds. Default is 150.
-    colors : list of colors, optional
-        A list of colors for the heatmap. Default is unspecified.
-    cmap : colormap, optional
-        The colormap to use for the heatmap. Default is 'green_to_red'.
+    save_filepath : file path name, optional
+        Absolute path name (type .png or .pdf) for saving the figure (optional); if None, does not save.
 
     Returns:
     --------
@@ -109,9 +119,9 @@ def visualize_heatmap_vt(figure_root, speed_data, vt, starttime, endtime, dx, dt
 
     Notes:
     ------
-    This function uses matplotlib to create a heatmap visualization of speed data along mile markers and time intervals.
-    It displays speed data as a colormap with color-coded speed values, and mile markers and time intervals are marked
-    on the axes. The colormap can be customized using the `colors` and `cmap` parameters.
+    This function uses matplotlib to create a heatmap visualization of speed data along 
+    mile markers and time intervals. It displays speed data as a colormap with color-coded 
+    speed values, and mile markers and time intervals are marked on the axes. 
 
     Example:
     --------
@@ -119,24 +129,34 @@ def visualize_heatmap_vt(figure_root, speed_data, vt, starttime, endtime, dx, dt
 
     This example will create a heatmap plot of `speed_data` with specified parameters.
     """
+    # Use a portion of the Jet colormap for a custom green-to-red colormap
     jet = plt.cm.jet
     colors = [jet(x) for x in np.linspace(1, 0.5, 256)]
-    # green_to_red is my favorite colormap...
     green_to_red = LinearSegmentedColormap.from_list('GreenToRed', colors, N=256)
+    # Create a new figure with a custom font.
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
-    sc = plt.scatter(speed_data.time, speed_data.milemarker, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    # Create a scatter plot of all of the spatiotemporal data points.
+    sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, 
+                     c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    # Overlay the virtual trajectories.
     plt.scatter(vt.time, vt.space, color='k',s=1)
+    # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     ticks = list(range(0, endtime-starttime + 1, minor_xtick))
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
-    xlabels = [(start_time + datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
-    plt.xticks(ticks, labels=xlabels, rotation=0, fontsize=30)
-    plt.xlim(0, (endtime-starttime))
+    xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
+    plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=16)
+    plt.xlim(0, (endtime-starttime)/dt)
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
+    # Add a grid and colorbar.
     plt.grid(which='both', linewidth=2, linestyle='--')
     plt.colorbar(sc, pad=0.01).set_label('Speed (mph)', rotation=90, labelpad=20)
-    plt.savefig(figure_root + '_vt.png', dpi=300, bbox_inches='tight')
+    # If a file path was defined for this plot, save the figure.
+    if save_filepath is not None:
+        if os.path.splitext(save_filepath)[1] not in ('.png', '.pdf'):
+            warnings.warn("Invalid file type for saving; must be .png or .pdf.")
+        plt.savefig(save_filepath, dpi=300, bbox_inches='tight')
     plt.show()

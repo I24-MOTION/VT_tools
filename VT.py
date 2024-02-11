@@ -3,6 +3,8 @@ import pandas as pd
 import tqdm
 from scipy.interpolate import griddata
 import matplotlib.pyplot as plt
+
+
 def get_bi_cubic(target_time, target_space,data):
 # Extract necessary columns
     data_small = data[(np.abs(data.t - target_time) <=8) & (np.abs(data.x - target_space) <=0.04)]
@@ -10,16 +12,13 @@ def get_bi_cubic(target_time, target_space,data):
     space = data_small['x']
     speed = data_small['speed']
     interpolated_value = griddata((time, space), speed, (target_time, target_space), method='cubic')
-#         error_message = None
     return interpolated_value
 
 def gen_VT(t0,v_id,large_speed_field,update_rate = 1, x0=0.32):
     start_time = t0 - 30
     end_time = t0 + 900 - 30
-    #     print(t0,x0)
     ranged_speed_field = large_speed_field[(large_speed_field.t <= end_time) & (large_speed_field.t > start_time)]
     v0 = float(get_bi_cubic(t0, x0, ranged_speed_field))
-    #     print(t0,x0)
     traj = [(t0, x0, v0, v_id)]
     t = t0
     x = x0
