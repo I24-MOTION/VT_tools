@@ -7,8 +7,8 @@ import warnings
 import os
 
 
-def visualize_heatmap(speed_data, starttime, endtime, dx, dt, 
-                      fig_width=8, fig_height=8, minor_xtick=150,
+def visualize_heatmap(speed_data, starttime, endtime,
+                      fig_width=8, fig_height=8, minor_xtick=1800,
                       min_milemarker=58.7, testbed_mile=4, 
                       save_filepath=None):
     """
@@ -17,15 +17,11 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt,
     Parameters:
     -----------
     speed_data : DataFrame
-        A DataFrame containing speed data with columns 't', 'x', and 'speed'.
+        A DataFrame containing speed data with columns 'time', 'milemarker', and 'speed'.
     starttime : int
         The starting time in seconds in Unix time.
     endtime : int
         The ending time in seconds in Unix time.
-    dx (float):
-        The spatial resolution (the spatial size for the Edie's box).
-    dt (float):
-        The temporal resolution (the temporal size for the Edie's box).
     fig_width : int, optional
         The width of the generated figure in inches. Default is 8.
     fig_height : int, optional
@@ -60,16 +56,16 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt,
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
     # Create a scatter plot of all of the spatiotemporal data points.
-    sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, 
+    sc = plt.scatter(speed_data.time, speed_data.milemarker,
                      c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     ticks = list(range(0, endtime-starttime + 1, minor_xtick))
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
-    xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
+    xlabels = [(start_time + datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
     plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=16)
-    plt.xlim(0, (endtime-starttime)/dt)
+    plt.xlim(0, (endtime-starttime))
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
     # Add a grid and colorbar.
@@ -83,8 +79,8 @@ def visualize_heatmap(speed_data, starttime, endtime, dx, dt,
     plt.show()
 
 
-def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt, 
-                         fig_width=8, fig_height=8, minor_xtick=150,
+def visualize_heatmap_vt(speed_data, vt, starttime, endtime, 
+                         fig_width=8, fig_height=8, minor_xtick=1800,
                          colors=None, cmap='green_to_red',
                          min_milemarker=58.7, testbed_mile=4, 
                          save_filepath=None):
@@ -94,15 +90,13 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt,
     Parameters:
     -----------
     speed_data : DataFrame
-        A DataFrame containing speed data with columns 't', 'x', and 'speed'.
+        A DataFrame containing speed data with columns 'time', 'milemarker', and 'speed'.
+    vt: DataFrame
+        A DataFrame containing virtual trajectory data with columns 'time', 'space'.
     starttime : int
         The starting time in seconds in Unix time.
     endtime : int
         The ending time in seconds in Unix time.
-    dx (float):
-        The spatial resolution (the spatial size for the Edie's box).
-    dt (float):
-        The temporal resolution (the temporal size for the Edie's box).
     fig_width : int, optional
         The width of the generated figure in inches. Default is 8.
     fig_height : int, optional
@@ -125,7 +119,7 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt,
 
     Example:
     --------
-    visualize_heatmap(speed_data, starttime=0, endtime=3600, dx=0.01, dt=60)
+    visualize_heatmap(speed_data, starttime=0, endtime=3600)
 
     This example will create a heatmap plot of `speed_data` with specified parameters.
     """
@@ -137,8 +131,7 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt,
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
     # Create a scatter plot of all of the spatiotemporal data points.
-    sc = plt.scatter(speed_data.t, min_milemarker + dx * speed_data.x, 
-                     c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    sc = plt.scatter(speed_data.time, speed_data.milemarker, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     # Overlay the virtual trajectories.
     plt.scatter(vt.time, vt.space, color='k',s=1)
     # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
@@ -146,9 +139,9 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime, dx, dt,
     ticks = list(range(0, endtime-starttime + 1, minor_xtick))
     plt.ylabel('Mile Marker')
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
-    xlabels = [(start_time + dt * datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
+    xlabels = [(start_time + datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
     plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=16)
-    plt.xlim(0, (endtime-starttime)/dt)
+    plt.xlim(0, (endtime-starttime)/)
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
     # Add a grid and colorbar.
