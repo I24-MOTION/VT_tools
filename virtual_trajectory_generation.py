@@ -33,6 +33,7 @@ def get_bi_cubic(target_time, target_space, data):
     interpolated_value = griddata((time, space), speed, (target_time, target_space), method='cubic')
     return interpolated_value
 
+
 def gen_VT(t0, v_id, large_speed_field, update_rate=1, x0=0.32):
     """
     Generates a vehicle trajectory based on interpolated speeds from a large speed field dataset,
@@ -76,6 +77,7 @@ def gen_VT(t0, v_id, large_speed_field, update_rate=1, x0=0.32):
                 (large_speed_field.t <= t + 900 - 30) & (large_speed_field.t > t - 30)] # to fix the bug for 22-11-21
         traj.append((t, x, speed, v_id))
     return traj
+
 
 def gen_all_VT(smooth_speed, frequency, hour, traj_hz=1):
     """

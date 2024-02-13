@@ -13,6 +13,7 @@ def visualize_heatmap(speed_data, starttime, endtime,
                       save_filepath=None):
     """
     Visualizes a heatmap of speed data over time and mile markers.
+    Note: this function requires smoothed speed fields from `macro_data_processing.py`.
 
     Parameters:
     -----------
@@ -56,8 +57,8 @@ def visualize_heatmap(speed_data, starttime, endtime,
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
     # Create a scatter plot of all of the spatiotemporal data points.
-    sc = plt.scatter(speed_data.time, speed_data.milemarker,
-                     c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    sc = plt.scatter(speed_data.time, speed_data.milemarker, c=speed_data.speed, 
+                     cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
     start_time = datetime.datetime.strptime(datetime.datetime.fromtimestamp(starttime).strftime("%H:%M"), "%H:%M")
     ticks = list(range(0, endtime-starttime + 1, minor_xtick))
@@ -86,6 +87,7 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime,
                          save_filepath=None):
     """
     Visualizes a heatmap of speed data over time and mile markers, along with virtual trajectories overlaid.
+    Note: this function requires smoothed speed fields from `macro_data_processing.py`.
 
     Parameters:
     -----------
@@ -131,7 +133,8 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime,
     plt.figure(figsize=(fig_width, fig_height))
     plt.rc('font', family='serif', size=30)
     # Create a scatter plot of all of the spatiotemporal data points.
-    sc = plt.scatter(speed_data.time, speed_data.milemarker, c=speed_data.speed, cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
+    sc = plt.scatter(speed_data.time, speed_data.milemarker, c=speed_data.speed, 
+                     cmap=green_to_red, vmin=0, vmax=80, marker='s', s=5)
     # Overlay the virtual trajectories.
     plt.scatter(vt.time, vt.space, color='k',s=1)
     # Customize the axes ticks and labels for milemarkers on y-axis and timestamp on x-axis.
@@ -141,7 +144,7 @@ def visualize_heatmap_vt(speed_data, vt, starttime, endtime,
     plt.xlabel(datetime.datetime.fromtimestamp(starttime).strftime("%Y-%m-%d"))
     xlabels = [(start_time + datetime.timedelta(seconds=tick)).strftime("%H:%M") for tick in ticks]
     plt.xticks(ticks, labels=xlabels, rotation=45, fontsize=16)
-    plt.xlim(0, (endtime-starttime)/)
+    plt.xlim(0, (endtime-starttime))
     plt.ylim(min_milemarker, min_milemarker+testbed_mile)
     plt.gca().invert_yaxis()
     # Add a grid and colorbar.
