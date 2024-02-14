@@ -30,12 +30,12 @@ VT-tools and associated data:
 
 I24-MOTION System:
 
-> Gloudemans, D., Wang, Y., Ji, J., Záchar, G., Barbour, W., Hall, E., Cebelak, M., Smith, L. and Work, D.B., 2023. I-24 MOTION: An instrument for freeway traffic science. Transportation Research Part C: Emerging Technologies, 155, p.104311.
+> Gloudemans, D., Wang, Y., Ji, J., Zachár, G., Barbour, W., Hall, E., Cebelak, M., Smith, L. and Work, D.B., 2023. I-24 MOTION: An instrument for freeway traffic science. Transportation Research Part C: Emerging Technologies, 155, p.104311.
 
 ```
 @article{gloudemans202324,
   title={I-24 MOTION: An instrument for freeway traffic science},
-  author={Gloudemans, Derek and Wang, Yanbing and Ji, Junyi and Z{\'a}char, Gergely and Barbour, William and Hall, Eric and Cebelak, Meredith and Smith, Lee and Work, Daniel B},
+  author={Gloudemans, Derek and Wang, Yanbing and Ji, Junyi and Zach{\'a}r, Gergely and Barbour, William and Hall, Eric and Cebelak, Meredith and Smith, Lee and Work, Daniel B},
   journal={Transportation Research Part C: Emerging Technologies},
   volume={155},
   pages={104311},
