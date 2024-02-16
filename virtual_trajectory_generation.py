@@ -71,7 +71,7 @@ def gen_VT(t0, v_id, large_speed_field, update_rate=1, x0=0.32):
     while (x < 4.3):
         speed = float(get_bi_cubic(t, x, ranged_speed_field))
         x = x + update_rate * speed / 3600
-        t = round(t + update_rate, 0)
+        t = round(t + update_rate, 3) # bug fixed
         if ((t - 30) % 300 == 0):
             ranged_speed_field = large_speed_field[
                 (large_speed_field.t <= t + 900 - 30) & (large_speed_field.t > t - 30)] # to fix the bug for 22-11-21
