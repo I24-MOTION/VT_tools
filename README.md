@@ -17,7 +17,7 @@ Use of this software is subject to the license (BSD 3-clause) included in the co
 
 VT-tools and associated data:
 
-> Ji, J., Wang, Y., Gloudemans, D., Zachár, G., Barbour, W. and Work, D.B., 2023. Virtual trajectories for I-24 MOTION: data and tools. arXiv preprint arXiv:2311.10888.
+> Ji, J., Wang, Y., Gloudemans, D., Zachár, G., Barbour, W., & Work, D. B. (2024, February). Virtual Trajectories for I–24 MOTION: Data and Tools. In 2024 Forum for Innovative Sustainable Transportation Systems (FISTS) (pp. 1-6). IEEE.
 
 ```
 @inproceedings{ji2024virtual,
