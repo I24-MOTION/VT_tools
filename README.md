@@ -20,11 +20,13 @@ VT-tools and associated data:
 > Ji, J., Wang, Y., Gloudemans, D., Zachár, G., Barbour, W. and Work, D.B., 2023. Virtual trajectories for I-24 MOTION: data and tools. arXiv preprint arXiv:2311.10888.
 
 ```
-@article{ji2023virtual,
-  title={Virtual trajectories for I-24 MOTION: data and tools},
+@inproceedings{ji2024virtual,
+  title={Virtual Trajectories for I--24 MOTION: Data and Tools},
   author={Ji, Junyi and Wang, Yanbing and Gloudemans, Derek and Zach{\'a}r, Gergely and Barbour, William and Work, Daniel B},
-  journal={arXiv preprint arXiv:2311.10888},
-  year={2023}
+  booktitle={2024 Forum for Innovative Sustainable Transportation Systems (FISTS)},
+  pages={1--6},
+  year={2024},
+  organization={IEEE}
 }
 ```
 
