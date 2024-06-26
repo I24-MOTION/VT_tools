@@ -3,6 +3,8 @@
 #### Version: 1.0
 #### Last updated: 2024-02-13
 
+2024-06-26: An update on the ASM deployment (ASM.py) for version 1.1 is scheduled for July 2024.
+
 ## Overview
 
 VT-tools is an analytics toolbox for transforming large amounts of imperfect vehicle trajectory data into high-resolution spatiotemporal speed fields and generating virtual trajectories through these speed fields. Virtual trajectories have the advantage of being strongly based in empirical data, while containing no consistency imperfections and being generally smooth. These hypothetical trajectories can also be compared more readily, since they can be spawned at specific times and sampling rates.
