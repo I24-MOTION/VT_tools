@@ -3,7 +3,7 @@
 #### Version: 1.0
 #### Last updated: 2024-02-13
 
-2024-06-26: An update on the ASM deployment (ASM.py) for version 1.1 is scheduled for July 2024.
+2024-06-26: An update on the ASM deployment (ASM.py) for version 1.1 is scheduled for September 2024.
 
 ## Overview
 
