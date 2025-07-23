@@ -23,7 +23,7 @@ VT-tools and associated data:
 
 ```
 @inproceedings{ji2024virtual,
-  title={Virtual Trajectories for I--24 MOTION: Data and Tools},
+  title={Virtual Trajectories for I-24 MOTION: Data and Tools},
   author={Ji, Junyi and Wang, Yanbing and Gloudemans, Derek and Zach{\'a}r, Gergely and Barbour, William and Work, Daniel B},
   booktitle={2024 Forum for Innovative Sustainable Transportation Systems (FISTS)},
   pages={1--6},
